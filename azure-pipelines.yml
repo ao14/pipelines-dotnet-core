@@ -9,6 +9,18 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-  - script: echo Hello, world!
-    displayName: "Run a one-line script"
+stages:
+- stage: Test
+  jobs:
+  - job:
+    steps:
+      - script: echo Hello, world!
+        displayName: "Run a one-line script"
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)'
+          Contents: |
+            **/*.yml
+            **/*.yaml
+            **/*.tf
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
