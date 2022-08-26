@@ -10,8 +10,8 @@ strategy:
   matrix:
     linux:
       operatingSystem: 'ubuntu-latest'
-    # windows:
-    #   operatingSystem: 'windows-latest'
+    windows:
+      operatingSystem: 'windows-latest'
     mac:
       operatingSystem: 'macos-latest'
 
@@ -19,10 +19,7 @@ strategy:
 pool:
   vmImage: $(operatingSystem)
 
-stages:
-- stage: Test
-  jobs:
-  - job:
-    steps:
-      - script: echo Hello, $(operatingSystem)!!
-        displayName: "Run a one-line script"
+
+steps:
+- script: echo Hello, $(operatingSystem)!!
+  displayName: "Run a one-line script"
