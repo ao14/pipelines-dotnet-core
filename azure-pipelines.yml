@@ -6,30 +6,23 @@
 trigger:
   - master
 
+strategy:
+  matrix:
+    linux:
+      operatingSystem: 'ubuntu-latest'
+    windows:
+      operatingSystem: 'windows-latest'
+    mac:
+      operatingSystem: 'macos-latest'
+
+
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(operatingSystem)
 
 stages:
 - stage: Test
   jobs:
   - job:
     steps:
-      - script: echo Hello, world!!
+      - script: echo Hello, $(operatingSystem)!!
         displayName: "Run a one-line script"
-      - script: echo $(MyFirstPipelineVariable)
-      - bash: ls -R $(Build.ArtifactStagingDirectory)
-      - task: CopyFiles@2
-        inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)'
-          Contents: |
-            **/*.yml
-            **/*.yaml
-            **/*.tf
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      - bash: ls -R $(Build.ArtifactStagingDirectory)
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
-
